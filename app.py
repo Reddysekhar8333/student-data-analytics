@@ -24,7 +24,7 @@ data = [
     {"student": "balu", "GPA": 5.7, "credits": 93, "course": "BCOM"},
     {"student": "prakash", "GPA": 9.0, "credits": 116, "course": "BCA"},
     {"student": "sony", "GPA": 7.1, "credits": 67, "course": "BCA"},
-    {"student": "ramya", "GPA": 7.8, "credits": 73, "course": "BCA"},
+    {"student": "preethi", "GPA": 7.8, "credits": 73, "course": "BCA"},
     {"student": "latha", "GPA": 4.3, "credits": 99, "course": "BCOM"},
     {"student": "sweety", "GPA": 8.3, "credits": 110, "course": "BSC"},
     {"student": "chinni", "GPA": 9.0, "credits": 106, "course": "BCCA"},
@@ -43,12 +43,16 @@ st.set_page_config(page_title="Academic Analytics", layout="wide")
 st.title("Academic Analytics Dashboard")
 st.markdown("students performance and grade")
 
-# side bar
+# -- side bar --
 st.sidebar.header("filter & sort")
+# 1. search bar feature
+search_query = st.sidebar.text_input("Search Student or Course", "").lower()
+# 2. sort controls
 sort_metric =st.sidebar.selectbox("sort by", ["GPA","credits"])
 order = st.sidebar.radio("order", ["desending", "ascending"])
 
-# data processing
+# -- data processing --
+
 is_reversed = True if order == "desending" else False
 sorted_data = quick_sort(data, sort_metric, reverse=is_reversed)
 df = pd.DataFrame(sorted_data)
@@ -62,7 +66,7 @@ with col2:
     st.subheader("GPA vs credits")
     fig = px.scatter(
         df,x="credits", y="GPA", color="course", size="GPA", hover_name="student", 
-        color_discrete_sequence=px.colors.qualitative.Pastel 
+        color_discrete_sequence=px.colors.qualitative.Vivid
     )
     st.plotly_chart(fig,use_container_width=True)
 
@@ -106,6 +110,6 @@ with c2:
         y="student_count", 
         title="Student Distribution by Course",
         labels={"student_count": "Number of Students"},
-        color_discrete_sequence=["#FFA15A"]
+        color_discrete_sequence=["#62FF5A"]
     )
     st.plotly_chart(fig_count, use_container_width=True)
